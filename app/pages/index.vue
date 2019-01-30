@@ -39,6 +39,9 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  overflow: hidden;
+}
 .large-button {
   width: 100%;
 }
