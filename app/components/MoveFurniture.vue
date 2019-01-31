@@ -11,6 +11,7 @@
           @mousedown="mdown(furniture, $event)"
           @mousemove="mmove(furniture, $event)"
           @mouseup="mup(furniture, $event)"
+          @click="printLocation(furniture)"
           @dblclick="mclick(furniture)"
         ></div>
       </div>
@@ -40,23 +41,14 @@ export default {
   data() {
     return {
       paneX: 0,
-      paneY: 0,
-      furnitures: [
-        {
-          name: "ベッド",
-          width: 100,
-          height: 120,
-          x: 43,
-          y: 21,
-          rotate: -90,
-          texture:
-            "http://img.kb-cdn.com/imgviewer/NVpIM2ptOHhYRzVmUk5rM1NrNlFxYVV6enV4aGk2UFRJMmxPckdDUUVNWVZFc0V2N3dVUjRtZlZNRnVSVC9PVGw0Ym82eHV1Rm1ac1ZJK2VjQ1NkUEpLbDZxZnFBMGFWbmxwMnd6eDF2cGU4ZXpPRXNKUjliczhxekZpZXhZUVp1YWt0ZmQyb05obnBEN2NoTUxTaUtFNmRzV29hL3RpMDJDUCtJZU1RRnhaQlBMOXVRN3d5dUxxbkZSTzJwLzVOdnFLOVY2MzRGRFJ4eE5KdmgzVE9rdz09?square=0",
-          moveable: false
-        }
-      ]
+      paneY: 0
     };
   },
+  props: ["furnitures"],
   methods: {
+    printLocation(furniture) {
+      console.log("x:" + furniture.x + ", y:" + furniture.y);
+    },
     mdown(furniture, event) {
       furniture.moveable = true;
     },
@@ -89,15 +81,24 @@ export default {
 .canvas-pane {
   width: 100%;
   height: 400px;
-  background-image: url("~assets/img/zumen.jpg");
+  padding: 50px;
+  margin-top: 20px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  background-image: url("~assets/img/zumen2.jpg");
+  background-color: #fff;
   background-repeat: no-repeat;
   background-size: auto 100%;
+  z-index: 99;
 }
 .furniture {
   position: fixed;
+  border: 1px solid #666;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
+  z-index: 100;
   &.active {
+    border: 2px double red;
     cursor: pointer !important;
   }
 }
