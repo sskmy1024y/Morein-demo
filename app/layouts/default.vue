@@ -1,13 +1,33 @@
 <template>
-  <div>
-    <nuxt/>
-  </div>
+  <el-container>
+    <el-header>
+      <div class="title">more.in</div>
+      <div class="button">
+        <el-button icon="el-icon-arrow-right" circle type="primary"></el-button>
+      </div>
+      <div class="stepbar">
+        <el-steps :active="2" finish-status="success" simple style="margin-top: 5px">
+          <el-step title="お部屋探し"></el-step>
+          <el-step title="家具選び"></el-step>
+          <el-step title="設計図を作る"></el-step>
+          <el-step title="情報入力"></el-step>
+          <el-step title="契約完了"></el-step>
+        </el-steps>
+      </div>
+      <div class="button">
+        <el-button icon="el-icon-arrow-left" circle></el-button>
+      </div>
+    </el-header>
+    <el-main>
+      <nuxt/>
+    </el-main>
+  </el-container>
 </template>
 
 <style>
 html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -15,6 +35,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(45deg, #1e81b6 10%, #85d8ce 90%);
 }
 
 *,
@@ -51,5 +76,34 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+</style>
+
+<style lang="scss" scope>
+header {
+  background: rgb(255, 243, 223);
+  border-bottom: 1px solid #fff;
+
+  .title {
+    color: rgb(24, 197, 151);
+    font-size: 50px;
+    font-weight: 700;
+    margin-top: 0px;
+    margin-left: 20px;
+    width: 20%;
+    float: left;
+  }
+  .button {
+    float: right;
+    margin: 10px;
+  }
+  .stepbar {
+    float: right;
+    width: 60%;
+    .el-steps--simple {
+      border: 2px solid #85d8ce;
+      border-radius: 2px;
+    }
+  }
 }
 </style>
