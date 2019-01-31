@@ -38,6 +38,11 @@
         <el-button type="primary" @click="$refs.modal.close()" round>OK</el-button>
       </div>
     </sweet-modal>
+
+    <div id="devtool" v-show="devmode">
+      <p style="text-align:center;">開発者モード</p>
+      <div id="devmessage"></div>
+    </div>
   </div>
 </template>
 
@@ -71,63 +76,67 @@ export default {
           category: 4,
           selected: null,
           display: true
+        },
+        {
+          id: 5,
+          category: 5,
+          selected: null,
+          display: true
         }
       ],
       category: [
         {
           id: 1,
-          name: "bed",
-          display: true
+          name: "bed"
         },
         {
           id: 2,
-          name: "tv",
-          display: true
+          name: "tv"
         },
         {
           id: 3,
-          name: "desk",
-          display: true
+          name: "desk"
         },
         {
           id: 4,
-          name: "chair",
-          display: true
+          name: "chair"
+        },
+        {
+          id: 5,
+          name: "refrigerator"
         }
       ],
       furnitures: [
         {
           id: 1001,
-          name: "ベッド",
-          width: 160,
-          height: 280,
-          x: 582,
-          y: 149,
-          rotate: 90,
-          texture:
-            "http://img.kb-cdn.com/imgviewer/NVpIM2ptOHhYRzVmUk5rM1NrNlFxYVV6enV4aGk2UFRJMmxPckdDUUVNWVZFc0V2N3dVUjRtZlZNRnVSVC9PVGw0Ym82eHV1Rm1ac1ZJK2VjQ1NkUEpLbDZxZnFBMGFWbmxwMnd6eDF2cGU4ZXpPRXNKUjliczhxekZpZXhZUVp1YWt0ZmQyb05obnBEN2NoTUxTaUtFNmRzV29hL3RpMDJDUCtJZU1RRnhaQlBMOXVRN3d5dUxxbkZSTzJwLzVOdnFLOVY2MzRGRFJ4eE5KdmgzVE9rdz09?square=0",
-          image:
-            "http://img.kb-cdn.com/imgviewer/NVpIM2ptOHhYRzVmUk5rM1NrNlFxYVV6enV4aGk2UFRJMmxPckdDUUVNWVZFc0V2N3dVUjRtZlZNRnVSVC9PVGw0Ym82eHV1Rm1ac1ZJK2VjQ1NkUEpLbDZxZnFBMGFWbmxwMnd6eDF2cGU4ZXpPRXNKUjliczhxekZpZXhZUVp1YWt0ZmQyb05obnBEN2NoTUxTaUtFNmRzV29hL3RpMDJDUCtJZU1RRnhaQlBMOXVRN3d5dUxxbkZSTzJwLzVOdnFLOVY2MzRGRFJ4eE5KdmgzVE9rdz09?square=0",
-          moveable: false,
-          category: 1
-        },
-        {
-          id: 1002,
-          name: "ベッド2",
-          width: 280,
-          height: 160,
-          x: 522,
+          name: "シングル用ウッドベッド",
+          description: "シンプルなウッドベッドです。",
+          width: 120,
+          height: 200,
+          x: 639,
           y: 209,
-          rotate: 0,
-          texture:
-            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
-          image:
-            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
+          rotate: 90,
+          texture: require("@/assets/img/bed1.jpeg"),
+          image: require("@/assets/img/bed1.jpeg"),
           moveable: false,
           category: 1
         },
         {
           id: 1011,
+          name: "シングル用ウッドベッド",
+          description: "シンプルなウッドベッドです。",
+          width: 100,
+          height: 200,
+          x: 648,
+          y: 219,
+          rotate: 90,
+          texture: require("@/assets/img/bed2.jpeg"),
+          image: require("@/assets/img/bed2.jpeg"),
+          moveable: false,
+          category: 1
+        },
+        {
+          id: 1021,
           name: "ベッド3",
           width: 280,
           height: 160,
@@ -149,25 +158,34 @@ export default {
           x: 466,
           y: 40,
           rotate: 0,
-          texture:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
-          image:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
+          texture: require("@/assets/img/tv1.jpg"),
+          image: require("@/assets/img/tv1.jpg"),
           moveable: false,
           category: 2
         },
         {
           id: 1013,
-          name: "テレビ",
+          name: "4Kテレビ",
           width: 140,
           height: 40,
           x: 466,
           y: 40,
           rotate: 0,
-          texture:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
-          image:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
+          texture: require("@/assets/img/tv2.jpg"),
+          image: require("@/assets/img/tv2.jpg"),
+          moveable: false,
+          category: 2
+        },
+        {
+          id: 1023,
+          name: "カラーテレビ",
+          width: 100,
+          height: 70,
+          x: 504,
+          y: 40,
+          rotate: 0,
+          texture: require("@/assets/img/tv3.jpg"),
+          image: require("@/assets/img/tv3.jpg"),
           moveable: false,
           category: 2
         },
@@ -194,14 +212,26 @@ export default {
           x: 678,
           y: 67,
           rotate: 0,
-          texture:
-            "https://www.nitori-net.jp/wcsstore/ec/Static/category/Chair/ctg200X200/WorkChair.jpg",
-          image:
-            "https://www.nitori-net.jp/wcsstore/ec/Static/category/Chair/ctg200X200/WorkChair.jpg",
+          texture: require("@/assets/img/chair1.jpg"),
+          image: require("@/assets/img/chair1.jpg"),
           moveable: false,
           category: 4
+        },
+        {
+          id: 1006,
+          name: "6ドア冷蔵庫",
+          width: 70,
+          height: 65,
+          x: 319,
+          y: 303,
+          rotate: 0,
+          texture: require("@/assets/img/refrigerator1.jpg"),
+          image: require("@/assets/img/refrigerator1.jpg"),
+          moveable: false,
+          category: 5
         }
-      ]
+      ],
+      devmode: true
     };
   },
   components: {
@@ -256,6 +286,16 @@ export default {
       });
       return furnitures;
     }
+  },
+  mounted() {
+    if (this.devmode) {
+      console["log"] = message => {
+        $("#devmessage").append("<p>" + message + "</p>");
+        $("#devmessage").scrollTop(99999);
+      };
+    } else {
+      console["log"] = function() {};
+    }
   }
 };
 </script>
@@ -287,5 +327,20 @@ body {
 .furniture-lists {
   overflow-x: scroll;
   height: 40vh;
+}
+
+#devtool {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  color: white;
+  width: 300px;
+  min-height: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  #devmessage {
+    height: 100%;
+    max-height: 75vh;
+    overflow-y: scroll;
+  }
 }
 </style>
