@@ -13,10 +13,10 @@
     </el-row>
     <br>
     <el-row :gutter="10">
-      <el-col :xs="7" :sm="7" :md="4" :lg="2" :xl="6">
+      <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
-      <el-col class="furniture-lists" :xs="5" :sm="5" :md="8" :lg="10" :xl="12">
+      <el-col class="furniture-lists" :span="12">
         <el-row :gutter="20">
           <furniture-list
             v-for="list in setLists"
@@ -27,7 +27,7 @@
           />
         </el-row>
       </el-col>
-      <el-col :xs="7" :sm="7" :md="4" :lg="2" :xl="6">
+      <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
     </el-row>
@@ -63,6 +63,12 @@ export default {
         {
           id: 3,
           category: 3,
+          selected: null,
+          display: true
+        },
+        {
+          id: 4,
+          category: 4,
           selected: null,
           display: true
         }
@@ -108,6 +114,21 @@ export default {
         {
           id: 1002,
           name: "ベッド2",
+          width: 280,
+          height: 160,
+          x: 522,
+          y: 209,
+          rotate: 0,
+          texture:
+            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
+          image:
+            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
+          moveable: false,
+          category: 1
+        },
+        {
+          id: 1011,
+          name: "ベッド3",
           width: 280,
           height: 160,
           x: 522,
@@ -265,5 +286,6 @@ body {
 
 .furniture-lists {
   overflow-x: scroll;
+  height: 40vh;
 }
 </style>

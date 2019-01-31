@@ -103,6 +103,9 @@ header {
     .el-steps--simple {
       border: 2px solid #85d8ce;
       border-radius: 2px;
+      @media screen and (max-width: 1900px) {
+        padding: 0px;
+      }
     }
   }
 }

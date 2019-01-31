@@ -45,14 +45,14 @@ export default {
 
 <style lang="scss" scoped>
 .furniture-list {
-  min-height: 120px;
+  height: 240px;
   overflow: none;
   .main-furniture {
     margin: 10px;
     background-color: #fff;
     border: 1px solid #aaa;
     border-radius: 5px;
-    min-height: 120px;
+    height: 124px;
     .furniture-image {
       margin-top: 2px;
       width: 120px;
