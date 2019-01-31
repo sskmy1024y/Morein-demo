@@ -9,7 +9,7 @@
         <el-steps :active="2" finish-status="success" simple style="margin-top: 5px">
           <el-step title="お部屋探し"></el-step>
           <el-step title="家具選び"></el-step>
-          <el-step title="設計図を作る"></el-step>
+          <el-step title="レイアウト"></el-step>
           <el-step title="情報入力"></el-step>
           <el-step title="契約完了"></el-step>
         </el-steps>
@@ -35,11 +35,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-}
-
-body {
-  height: 100vh;
-  background: linear-gradient(45deg, #1e81b6 10%, #85d8ce 90%);
 }
 
 *,
@@ -103,10 +98,10 @@ header {
     .el-steps--simple {
       border: 2px solid #85d8ce;
       border-radius: 2px;
-      @media screen and (max-width: 1900px) {
-        padding: 0px;
-      }
     }
   }
+}
+main {
+  background: linear-gradient(45deg, #1e81b6 10%, #85d8ce 90%);
 }
 </style>

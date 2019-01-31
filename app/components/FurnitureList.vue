@@ -46,7 +46,7 @@ export default {
 <style lang="scss" scoped>
 .furniture-list {
   height: 240px;
-  overflow: none;
+  // overflow: none;
   .main-furniture {
     margin: 10px;
     background-color: #fff;

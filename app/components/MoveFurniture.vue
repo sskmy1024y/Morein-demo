@@ -2,6 +2,7 @@
   <el-row :gutter="20">
     <el-col :span="12" :offset="6">
       <div id="canvas-pane" class="canvas-pane">
+        <img src="~assets/img/zumen2.jpg" alt>
         <div
           v-for="furniture in furnitures"
           :key="furniture.id"
@@ -47,17 +48,20 @@ export default {
   props: ["furnitures"],
   methods: {
     printLocation(furniture) {
-      console.log("x:" + furniture.x + ", y:" + furniture.y);
+      console.log(furniture.name + " x:" + furniture.x + ", y:" + furniture.y);
     },
     mdown(furniture, event) {
       furniture.moveable = true;
     },
     mmove(furniture, event) {
       if (!furniture.moveable) return;
-      let x = event.pageX - furniture.width / 2 - this.paneX;
-      let y = event.pageY - furniture.height / 2 - this.paneY;
-      // if (this.paneX > x) x = this.paneX;
-      // if (this.paneY < y) y = this.paneY;
+
+      let x = event.pageX - this.paneX - furniture.width / 2;
+      let y = event.pageY - this.paneY - 70 - furniture.height / 2;
+
+      if (x < 0) x = 0;
+      if (y < 0) y = 0;
+
       furniture.x = x;
       furniture.y = y;
     },
@@ -69,7 +73,7 @@ export default {
     }
   },
   mounted() {
-    this.paneY = $("#canvas-pane").offset().top;
+    this.paneY = $("#canvas-pane").offset().top - 70;
     this.paneX = $("#canvas-pane").offset().left;
   },
   computed: {}
@@ -80,19 +84,22 @@ export default {
 <style lang="scss">
 .canvas-pane {
   width: 100%;
-  height: 400px;
-  padding: 50px;
+  min-height: 400px;
+  padding: 10px;
   margin-top: 20px;
   border: 1px solid #aaa;
   border-radius: 5px;
-  background-image: url("~assets/img/zumen2.jpg");
+  // background-image: url("~assets/img/zumen2.jpg");
   background-color: #fff;
   background-repeat: no-repeat;
   background-size: auto 100%;
   z-index: 99;
+  img {
+    width: 100%;
+  }
 }
 .furniture {
-  position: fixed;
+  position: absolute;
   border: 1px solid #666;
   background-repeat: no-repeat;
   background-size: 100% 100%;

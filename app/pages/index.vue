@@ -1,7 +1,19 @@
 <template>
   <div class="container">
-    <div class="overlay"></div>
+    <div class="overlay" :style="`height:${mainHeight}px;`"></div>
     <move-furniture :furnitures="showFurniture"/>
+    <br>
+
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="6">
+        <el-switch
+          style="float: right;"
+          v-model="furniture_mode"
+          active-text="3D view"
+          inactive-text="2D view"
+        ></el-switch>
+      </el-col>
+    </el-row>
     <br>
     <el-row :gutter="20">
       <el-col :span="5" :offset="7">
@@ -11,7 +23,6 @@
         <el-button class="large-button" type="primary" @click="saveDemo">保存する</el-button>
       </el-col>
     </el-row>
-    <br>
     <el-row :gutter="10">
       <el-col :span="6">
         <div class="grid-content"></div>
@@ -47,6 +58,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import MoveFurniture from "~/components/MoveFurniture";
 import FurnitureList from "~/components/FurnitureList";
 export default {
@@ -111,10 +123,10 @@ export default {
           id: 1001,
           name: "シングル用ウッドベッド",
           description: "シンプルなウッドベッドです。",
-          width: 120,
+          width: 110,
           height: 200,
-          x: 639,
-          y: 209,
+          x: 579,
+          y: 184,
           rotate: 90,
           texture: require("@/assets/img/bed1.jpeg"),
           image: require("@/assets/img/bed1.jpeg"),
@@ -123,12 +135,12 @@ export default {
         },
         {
           id: 1011,
-          name: "シングル用ウッドベッド",
+          name: "シングル用ウッドベッド2",
           description: "シンプルなウッドベッドです。",
           width: 100,
           height: 200,
-          x: 648,
-          y: 219,
+          x: 584,
+          y: 188,
           rotate: 90,
           texture: require("@/assets/img/bed2.jpeg"),
           image: require("@/assets/img/bed2.jpeg"),
@@ -137,8 +149,8 @@ export default {
         },
         {
           id: 1021,
-          name: "ベッド3",
-          width: 280,
+          name: "ダブルベッド",
+          width: 200,
           height: 160,
           x: 522,
           y: 209,
@@ -155,8 +167,8 @@ export default {
           name: "テレビ",
           width: 140,
           height: 40,
-          x: 466,
-          y: 40,
+          x: 400,
+          y: 36,
           rotate: 0,
           texture: require("@/assets/img/tv1.jpg"),
           image: require("@/assets/img/tv1.jpg"),
@@ -168,8 +180,8 @@ export default {
           name: "4Kテレビ",
           width: 140,
           height: 40,
-          x: 466,
-          y: 40,
+          x: 393,
+          y: 39,
           rotate: 0,
           texture: require("@/assets/img/tv2.jpg"),
           image: require("@/assets/img/tv2.jpg"),
@@ -181,8 +193,8 @@ export default {
           name: "カラーテレビ",
           width: 100,
           height: 70,
-          x: 504,
-          y: 40,
+          x: 411,
+          y: 36,
           rotate: 0,
           texture: require("@/assets/img/tv3.jpg"),
           image: require("@/assets/img/tv3.jpg"),
@@ -194,8 +206,8 @@ export default {
           name: "デスク",
           width: 160,
           height: 60,
-          x: 636,
-          y: 40,
+          x: 573,
+          y: 36,
           rotate: 0,
           texture:
             "https://images-na.ssl-images-amazon.com/images/I/71imPndfHSL._SL1500_.jpg",
@@ -209,8 +221,8 @@ export default {
           name: "チェア",
           width: 75,
           height: 70,
-          x: 678,
-          y: 67,
+          x: 612,
+          y: 66,
           rotate: 0,
           texture: require("@/assets/img/chair1.jpg"),
           image: require("@/assets/img/chair1.jpg"),
@@ -222,8 +234,8 @@ export default {
           name: "6ドア冷蔵庫",
           width: 70,
           height: 65,
-          x: 319,
-          y: 303,
+          x: 296,
+          y: 273,
           rotate: 0,
           texture: require("@/assets/img/refrigerator1.jpg"),
           image: require("@/assets/img/refrigerator1.jpg"),
@@ -231,7 +243,9 @@ export default {
           category: 5
         }
       ],
-      devmode: true
+      devmode: true,
+      furniture_mode: "2D",
+      mainHeight: 1000
     };
   },
   components: {
@@ -288,9 +302,23 @@ export default {
     }
   },
   mounted() {
+    this.mainHeight = $("main").height();
+    console.log(this.mainHeight);
+
     if (this.devmode) {
       console["log"] = message => {
-        $("#devmessage").append("<p>" + message + "</p>");
+        let msg = "";
+        if (typeof message === "object") {
+          msg =
+            "<details><summary>" +
+            message +
+            "</summary>" +
+            JSON.stringify(message, undefined, 1) +
+            "</details>";
+        } else {
+          msg = message;
+        }
+        $("#devmessage").append("<p>" + msg + "</p>");
         $("#devmessage").scrollTop(99999);
       };
     } else {
@@ -301,13 +329,8 @@ export default {
 </script>
 
 <style lang="scss" scope>
-body {
-  overflow: hidden;
-}
-
 .overlay {
   width: 56%;
-  height: 90vh;
   margin-left: 21%;
   overflow: hidden;
   position: absolute;
@@ -325,8 +348,8 @@ body {
 }
 
 .furniture-lists {
-  overflow-x: scroll;
-  height: 40vh;
+  // overflow-x: scroll;
+  // height: 40vh;
 }
 
 #devtool {
