@@ -11,7 +11,7 @@
             <el-col :span="11">様</el-col>
           </el-form-item>
           <el-form-item label="入居先住所">
-            <el-col :span="15">
+            <el-col :span="16">
               <el-input v-model="homeData.address" disabled/>
             </el-col>
           </el-form-item>
@@ -28,7 +28,7 @@
           </el-form-item>
           <el-form-item label="集荷内容">
             <el-col :span="24">
-              <el-collapse accordion @change="resizeHeight()">
+              <el-collapse accordion @change="setNextHeight">
                 <el-collapse-item title="集荷家具一覧" name="1">
                   <el-table :data="pickup_list" stripe height="250" style="width: 100%">
                     <el-table-column prop="name" label="種別" width="180"></el-table-column>
@@ -50,15 +50,33 @@
               ></el-date-picker>
             </el-col>
           </el-form-item>
+          <el-form-item label="フロアデザイン">
+            <el-col :span="24">
+              <move-furniture
+                :furnitures="showFurniture"
+                :homeData="homeData"
+                :img_rate="img_rate"
+                :moveable="false"
+                :leftmargin="20"
+              />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="備考">
+            <el-col :span="24">
+              <el-input type="textarea" :rows="3" v-model="userData.description"></el-input>
+            </el-col>
+          </el-form-item>
         </el-form>
       </el-col>
     </el-row>
-    <move-furniture
-      :furnitures="showFurniture"
-      :homeData="homeData"
-      :img_rate="img_rate"
-      :moveable="false"
-    />
+
+    <br>
+    <el-row :gutter="20">
+      <el-col :span="11" :offset="7">
+        <!-- <el-button type="primary">確認完了</el-button>
+        <el-button>Cancel</el-button>-->
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -77,6 +95,7 @@ export default {
       userData: {},
       devmode: true,
       furniture_mode: "2D",
+      nextHeight: 1000,
       mainHeight: 1000,
       img_rate: 1,
       pickup_list: [
@@ -116,8 +135,9 @@ export default {
       this.saveFurnitures(this.catalogs);
       this.$refs.modal.open();
     },
-    resizeHeight() {
-      this.mainHeight = $("main").height();
+    setNextHeight() {
+      this.mainHeight = this.nextHeight;
+      this.nextHeight = $("main").height();
     },
     ...mapMutations(["saveFurnitures"]),
     ...mapGetters([
@@ -149,11 +169,18 @@ export default {
     this.userData = this.getUserData();
   },
   mounted() {
-    this.mainHeight = $("main").height() + 60;
+    this.mainHeight = $("main").height();
     this.img_rate = $("#floor-image").width() / this.homeData.floor.baseX;
   }
 };
 </script>
+
+<style lang="scss">
+body {
+  overflow: scroll;
+}
+</style>
+
 
 <style lang="scss" scope>
 .overlay {
