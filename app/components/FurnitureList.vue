@@ -4,10 +4,10 @@
       <el-col :span="1">
         <input type="checkbox" v-model="list.display" @click="$emit('changeDisplay',list.id)">
       </el-col>
-      <el-col :span="6">
+      <el-col :span="7">
         <img :src="list.furnitures[0].image" alt class="furniture-image">
       </el-col>
-      <el-col :span="10" :offset="1">
+      <el-col :span="12" :offset="1">
         <div class="title">{{list.furnitures[0].name}}</div>
         <p>
           <span>w:{{ list.furnitures[0].width }} h:{{ list.furnitures[0].height }} d:x</span>
@@ -45,8 +45,8 @@ export default {
 
 <style lang="scss" scoped>
 .furniture-list {
-  height: 240px;
-  overflow: none;
+  max-height: 240px;
+  // overflow: none;
   .main-furniture {
     margin: 10px;
     background-color: #fff;

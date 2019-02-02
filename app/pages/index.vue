@@ -1,7 +1,19 @@
 <template>
   <div class="container">
-    <div class="overlay"></div>
-    <move-furniture :furnitures="showFurniture"/>
+    <div class="overlay" :style="`height:${mainHeight}px;`"></div>
+    <move-furniture :furnitures="showFurniture" :homeData="homeData" :img_rate="img_rate"/>
+    <br>
+
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="6">
+        <el-switch
+          style="float: right;"
+          v-model="furniture_mode"
+          active-text="3D view"
+          inactive-text="2D view"
+        ></el-switch>
+      </el-col>
+    </el-row>
     <br>
     <el-row :gutter="20">
       <el-col :span="5" :offset="7">
@@ -11,7 +23,6 @@
         <el-button class="large-button" type="primary" @click="saveDemo">保存する</el-button>
       </el-col>
     </el-row>
-    <br>
     <el-row :gutter="10">
       <el-col :span="6">
         <div class="grid-content"></div>
@@ -34,174 +45,35 @@
 
     <sweet-modal ref="modal" width="50%" icon="success">
       <div class="main">
-        <p>保存しました</p>
-        <el-button type="primary" @click="$refs.modal.close()" round>OK</el-button>
+        <p>部屋デザインを保存しました</p>
+        <el-button type="info" plain @click="$refs.modal.close()">編集画面に戻る</el-button>
+        <el-button type="primary" @click="pushAdmin">次へ進む</el-button>
       </div>
     </sweet-modal>
+
+    <div id="devtool" v-show="devmode">
+      <p style="text-align:center;">開発者モード</p>
+      <div id="devmessage"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import $ from "jquery";
+import { mapMutations, mapActions, mapState, mapGetters } from "vuex";
 import MoveFurniture from "~/components/MoveFurniture";
 import FurnitureList from "~/components/FurnitureList";
 export default {
   data() {
     return {
-      catalogs: [
-        {
-          id: 1,
-          category: 1,
-          selected: null,
-          display: true
-        },
-        {
-          id: 2,
-          category: 2,
-          selected: null,
-          display: true
-        },
-        {
-          id: 3,
-          category: 3,
-          selected: null,
-          display: true
-        },
-        {
-          id: 4,
-          category: 4,
-          selected: null,
-          display: true
-        }
-      ],
-      category: [
-        {
-          id: 1,
-          name: "bed",
-          display: true
-        },
-        {
-          id: 2,
-          name: "tv",
-          display: true
-        },
-        {
-          id: 3,
-          name: "desk",
-          display: true
-        },
-        {
-          id: 4,
-          name: "chair",
-          display: true
-        }
-      ],
-      furnitures: [
-        {
-          id: 1001,
-          name: "ベッド",
-          width: 160,
-          height: 280,
-          x: 582,
-          y: 149,
-          rotate: 90,
-          texture:
-            "http://img.kb-cdn.com/imgviewer/NVpIM2ptOHhYRzVmUk5rM1NrNlFxYVV6enV4aGk2UFRJMmxPckdDUUVNWVZFc0V2N3dVUjRtZlZNRnVSVC9PVGw0Ym82eHV1Rm1ac1ZJK2VjQ1NkUEpLbDZxZnFBMGFWbmxwMnd6eDF2cGU4ZXpPRXNKUjliczhxekZpZXhZUVp1YWt0ZmQyb05obnBEN2NoTUxTaUtFNmRzV29hL3RpMDJDUCtJZU1RRnhaQlBMOXVRN3d5dUxxbkZSTzJwLzVOdnFLOVY2MzRGRFJ4eE5KdmgzVE9rdz09?square=0",
-          image:
-            "http://img.kb-cdn.com/imgviewer/NVpIM2ptOHhYRzVmUk5rM1NrNlFxYVV6enV4aGk2UFRJMmxPckdDUUVNWVZFc0V2N3dVUjRtZlZNRnVSVC9PVGw0Ym82eHV1Rm1ac1ZJK2VjQ1NkUEpLbDZxZnFBMGFWbmxwMnd6eDF2cGU4ZXpPRXNKUjliczhxekZpZXhZUVp1YWt0ZmQyb05obnBEN2NoTUxTaUtFNmRzV29hL3RpMDJDUCtJZU1RRnhaQlBMOXVRN3d5dUxxbkZSTzJwLzVOdnFLOVY2MzRGRFJ4eE5KdmgzVE9rdz09?square=0",
-          moveable: false,
-          category: 1
-        },
-        {
-          id: 1002,
-          name: "ベッド2",
-          width: 280,
-          height: 160,
-          x: 522,
-          y: 209,
-          rotate: 0,
-          texture:
-            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
-          image:
-            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
-          moveable: false,
-          category: 1
-        },
-        {
-          id: 1011,
-          name: "ベッド3",
-          width: 280,
-          height: 160,
-          x: 522,
-          y: 209,
-          rotate: 0,
-          texture:
-            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
-          image:
-            "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
-          moveable: false,
-          category: 1
-        },
-        {
-          id: 1003,
-          name: "テレビ",
-          width: 140,
-          height: 40,
-          x: 466,
-          y: 40,
-          rotate: 0,
-          texture:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
-          image:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
-          moveable: false,
-          category: 2
-        },
-        {
-          id: 1013,
-          name: "テレビ",
-          width: 140,
-          height: 40,
-          x: 466,
-          y: 40,
-          rotate: 0,
-          texture:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
-          image:
-            "http://www.jp-aiwa.com/wp-content/uploads/2018/01/p_tv-32h10.png",
-          moveable: false,
-          category: 2
-        },
-        {
-          id: 1004,
-          name: "デスク",
-          width: 160,
-          height: 60,
-          x: 636,
-          y: 40,
-          rotate: 0,
-          texture:
-            "https://images-na.ssl-images-amazon.com/images/I/71imPndfHSL._SL1500_.jpg",
-          image:
-            "https://images-na.ssl-images-amazon.com/images/I/71imPndfHSL._SL1500_.jpg",
-          moveable: false,
-          category: 3
-        },
-        {
-          id: 1005,
-          name: "チェア",
-          width: 75,
-          height: 70,
-          x: 678,
-          y: 67,
-          rotate: 0,
-          texture:
-            "https://www.nitori-net.jp/wcsstore/ec/Static/category/Chair/ctg200X200/WorkChair.jpg",
-          image:
-            "https://www.nitori-net.jp/wcsstore/ec/Static/category/Chair/ctg200X200/WorkChair.jpg",
-          moveable: false,
-          category: 4
-        }
-      ]
+      catalogs: [],
+      category: [],
+      furnitures: [],
+      homeData: [],
+      devmode: true,
+      furniture_mode: "2D",
+      mainHeight: 1000,
+      img_rate: 1
     };
   },
   components: {
@@ -215,15 +87,24 @@ export default {
       });
     },
     changeDisplay(id) {
-      console.log(id);
-
       this.catalogs.some(catalog => {
         return catalog.id == id ? (catalog.display = !catalog.display) : false;
       });
     },
     saveDemo() {
+      this.saveCatalogs(this.catalogs);
       this.$refs.modal.open();
-    }
+    },
+    pushAdmin() {
+      this.$router.push("/admin");
+    },
+    ...mapMutations(["saveCatalogs"]),
+    ...mapGetters([
+      "loadCatalogs",
+      "getFurnitures",
+      "getCategories",
+      "getHomeData"
+    ])
   },
   computed: {
     setLists() {
@@ -256,18 +137,44 @@ export default {
       });
       return furnitures;
     }
+  },
+  created() {
+    this.catalogs = this.loadCatalogs();
+    this.category = this.getCategories();
+    this.furnitures = this.getFurnitures();
+    this.homeData = this.getHomeData();
+  },
+  mounted() {
+    if (this.devmode) {
+      console["log"] = message => {
+        let msg = "";
+        if (typeof message === "object") {
+          msg =
+            "<details><summary>" +
+            message +
+            "</summary>" +
+            JSON.stringify(message, undefined, 1) +
+            "</details>";
+        } else {
+          msg = message;
+        }
+        $("#devmessage").append("<p>" + msg + "</p>");
+        $("#devmessage").scrollTop(99999);
+      };
+    } else {
+      console["log"] = function() {};
+    }
+
+    this.mainHeight = $("main").height();
+    this.img_rate = $("#floor-image").width() / this.homeData.floor.baseX;
+    console.log(this.mainHeight);
   }
 };
 </script>
 
 <style lang="scss" scope>
-body {
-  overflow: hidden;
-}
-
 .overlay {
   width: 56%;
-  height: 90vh;
   margin-left: 21%;
   overflow: hidden;
   position: absolute;
@@ -285,7 +192,21 @@ body {
 }
 
 .furniture-lists {
-  overflow-x: scroll;
-  height: 40vh;
+  margin-bottom: 80px;
+}
+
+#devtool {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  color: white;
+  width: 300px;
+  min-height: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  #devmessage {
+    height: 100%;
+    max-height: 75vh;
+    overflow-y: scroll;
+  }
 }
 </style>
