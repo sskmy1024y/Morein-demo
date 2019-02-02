@@ -3,7 +3,12 @@
     <div class="overlay" :style="`height:${mainHeight}px;`"></div>
     <el-row :gutter="20">
       <el-col :span="12" :offset="6">
-        <move-furniture :furnitures="showFurniture" :homeData="homeData" :img_rate="img_rate"/>
+        <move-furniture
+          :furnitures="showFurniture"
+          :homeData="homeData"
+          :img_rate="img_rate"
+          :moveable="true"
+        />
       </el-col>
     </el-row>
     <br>
