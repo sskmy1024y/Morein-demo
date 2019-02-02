@@ -2,13 +2,13 @@
   <el-row :gutter="20">
     <el-col :span="12" :offset="6">
       <div id="canvas-pane" class="canvas-pane">
-        <img src="~assets/img/zumen2.jpg" alt>
+        <img id="floor-image" :src="homeData.floor.image" alt>
         <div
           v-for="furniture in furnitures"
           :key="furniture.id"
           class="furniture"
           :class="{active : furniture.moveable}"
-          :style="`width:${furniture.width}px; height:${furniture.height}px; left:${paneX + furniture.x}px; top:${paneY + furniture.y}px; background-image: url('${furniture.texture}'); transform:rotate(${furniture.rotate}deg);`"
+          :style="`width:${furniture.width * img_rate}px; height:${furniture.height * img_rate}px; left:${paneX + furniture.x * img_rate}px; top:${paneY + furniture.y * img_rate}px; background-image: url('${furniture.texture}'); transform:rotate(${furniture.rotate}deg);`"
           @mousedown="mdown(furniture, $event)"
           @mousemove="mmove(furniture, $event)"
           @mouseup="mup(furniture, $event)"
@@ -45,19 +45,26 @@ export default {
       paneY: 0
     };
   },
-  props: ["furnitures"],
+  props: ["furnitures", "homeData", "img_rate", "moveable"],
   methods: {
     printLocation(furniture) {
       console.log(furniture.name + " x:" + furniture.x + ", y:" + furniture.y);
     },
     mdown(furniture, event) {
+      if (!this.moveable) return;
       furniture.moveable = true;
     },
     mmove(furniture, event) {
-      if (!furniture.moveable) return;
+      if (!furniture.moveable || !this.moveable) return;
 
-      let x = event.pageX - this.paneX - furniture.width / 2;
-      let y = event.pageY - this.paneY - 70 - furniture.height / 2;
+      let x =
+        (event.pageX - this.paneX - (furniture.width * this.img_rate) / 2) /
+        this.img_rate;
+      let y =
+        (event.pageY -
+          $("#canvas-pane").offset().top -
+          (furniture.height * this.img_rate) / 2) /
+        this.img_rate;
 
       if (x < 0) x = 0;
       if (y < 0) y = 0;
@@ -66,17 +73,19 @@ export default {
       furniture.y = y;
     },
     mup(furniture, event) {
+      if (!this.moveable) return;
       furniture.moveable = false;
     },
     mclick(furniture) {
+      if (!this.moveable) return;
       furniture.rotate += 90;
     }
   },
   mounted() {
-    this.paneY = $("#canvas-pane").offset().top - 70;
+    // this.paneY = $("#canvas-pane").offset().top;
+    this.paneY = 30;
     this.paneX = $("#canvas-pane").offset().left;
-  },
-  computed: {}
+  }
 };
 </script>
 

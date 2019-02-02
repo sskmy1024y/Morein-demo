@@ -1,22 +1,12 @@
 # morein
 
-> My fine Nuxt.js project
+> more.in demonstration web page.
 
-## Build Setup
+# Build Setup
+```
+$ npm install
 
-``` bash
-# install dependencies
-$ yarn install
+$ npm run dev
 
-# serve with hot reload at localhost:3000
-$ yarn run dev
-
-# build for production and launch server
-$ yarn run build
-$ yarn start
-
-# generate static project
-$ yarn run generate
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
