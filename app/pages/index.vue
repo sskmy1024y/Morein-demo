@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <div class="overlay" :style="`height:${mainHeight}px;`"></div>
-    <move-furniture :furnitures="showFurniture" :homeData="homeData" :img_rate="img_rate"/>
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="6">
+        <move-furniture :furnitures="showFurniture" :homeData="homeData" :img_rate="img_rate"/>
+      </el-col>
+    </el-row>
     <br>
 
     <el-row :gutter="20">

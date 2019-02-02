@@ -1,23 +1,19 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="12" :offset="6">
-      <div id="canvas-pane" class="canvas-pane">
-        <img id="floor-image" :src="homeData.floor.image" alt>
-        <div
-          v-for="furniture in furnitures"
-          :key="furniture.id"
-          class="furniture"
-          :class="{active : furniture.moveable}"
-          :style="`width:${furniture.width * img_rate}px; height:${furniture.height * img_rate}px; left:${paneX + furniture.x * img_rate}px; top:${paneY + furniture.y * img_rate}px; background-image: url('${furniture.texture}'); transform:rotate(${furniture.rotate}deg);`"
-          @mousedown="mdown(furniture, $event)"
-          @mousemove="mmove(furniture, $event)"
-          @mouseup="mup(furniture, $event)"
-          @click="printLocation(furniture)"
-          @dblclick="mclick(furniture)"
-        ></div>
-      </div>
-    </el-col>
-  </el-row>
+  <div id="canvas-pane" class="canvas-pane">
+    <img id="floor-image" :src="homeData.floor.image" alt>
+    <div
+      v-for="furniture in furnitures"
+      :key="furniture.id"
+      class="furniture"
+      :class="{active : furniture.moveable}"
+      :style="`width:${furniture.width * img_rate}px; height:${furniture.height * img_rate}px; left:${paneX + furniture.x * img_rate}px; top:${paneY + furniture.y * img_rate}px; background-image: url('${furniture.texture}'); transform:rotate(${furniture.rotate}deg);`"
+      @mousedown="mdown(furniture, $event)"
+      @mousemove="mmove(furniture, $event)"
+      @mouseup="mup(furniture, $event)"
+      @click="printLocation(furniture)"
+      @dblclick="mclick(furniture)"
+    ></div>
+  </div>
 </template>
 
 <script>
@@ -45,7 +41,7 @@ export default {
       paneY: 0
     };
   },
-  props: ["furnitures", "homeData", "img_rate", "moveable"],
+  props: ["furnitures", "homeData", "img_rate", "moveable", "leftmargin"],
   methods: {
     printLocation(furniture) {
       console.log(furniture.name + " x:" + furniture.x + ", y:" + furniture.y);
@@ -84,7 +80,9 @@ export default {
   mounted() {
     // this.paneY = $("#canvas-pane").offset().top;
     this.paneY = 30;
-    this.paneX = $("#canvas-pane").offset().left;
+    this.paneX = this.leftmargin
+      ? this.leftmargin
+      : $("#canvas-pane").offset().left;
   }
 };
 </script>
