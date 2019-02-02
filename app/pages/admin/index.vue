@@ -177,7 +177,7 @@ export default {
 
 <style lang="scss">
 body {
-  overflow: scroll;
+  overflow: scroll !important;
 }
 </style>
 
