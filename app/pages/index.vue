@@ -26,7 +26,7 @@
     <br>
     <el-row :gutter="20">
       <el-col :span="5" :offset="7">
-        <el-button class="large-button" type="success">自分の家具を追加</el-button>
+        <el-button class="large-button" type="success" @click="preAddMyFurniture">自分の家具を追加</el-button>
       </el-col>
       <el-col :span="5">
         <el-button class="large-button" type="primary" @click="saveDemo">保存する</el-button>
@@ -60,6 +60,51 @@
       </div>
     </sweet-modal>
 
+    <sweet-modal ref="myFurniture" width="50%">
+      <div class="main" style="width:80%;margin:0 auto;">
+        <h1>自分の家具を追加する</h1>
+        <br>
+        <el-form ref="form" :model="myFurnitureForm" label-width="150px" label-position="left">
+          <el-form-item label="家具名">
+            <el-input v-model="myFurnitureForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="カテゴリー">
+            <el-select v-model="myFurnitureForm.category" placeholder="カテゴリを選んでください">
+              <el-option
+                v-for="item in category"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="横幅:width(cm)">
+            <el-input-number v-model="myFurnitureForm.width" :min="1"></el-input-number>
+          </el-form-item>
+          <el-form-item label="高さ:height(cm)">
+            <el-input-number v-model="myFurnitureForm.height" :min="1"></el-input-number>
+          </el-form-item>
+          <el-form-item label="奥行:depth(cm)">
+            <el-input-number :min="1"></el-input-number>
+          </el-form-item>
+          <el-form-item>
+            <el-upload
+              action="https://jsonplaceholder.typicode.com/posts/"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt>
+            </el-dialog>
+          </el-form-item>
+        </el-form>
+        <el-button type="info" plain @click="$refs.myFurniture.close()">編集画面に戻る</el-button>
+        <el-button type="primary" @click="postAddMyFurniture">家具を追加</el-button>
+      </div>
+    </sweet-modal>
+
     <div id="devtool" v-show="devmode">
       <p style="text-align:center;">開発者モード</p>
       <div id="devmessage"></div>
@@ -79,9 +124,19 @@ export default {
       category: [],
       furnitures: [],
       homeData: [],
-      devmode: true,
+      devmode: false,
       furniture_mode: "2D",
       mainHeight: 1000,
+      myFurnitureForm: {
+        name: "",
+        width: 100,
+        height: 100,
+        category: null,
+        texture: require("@/assets/img/noimage.png"),
+        image: require("@/assets/img/noimage.png")
+      },
+      dialogImageUrl: "",
+      dialogVisible: false,
       img_rate: 1
     };
   },
@@ -107,6 +162,27 @@ export default {
     pushAdmin() {
       this.$router.push("/admin");
     },
+    preAddMyFurniture() {
+      this.$refs.myFurniture.open();
+    },
+    async postAddMyFurniture() {
+      await this.addMyFurniture(this.myFurnitureForm);
+      this.myFurnitureForm = {
+        name: "",
+        width: 100,
+        height: 100,
+        category: null,
+        texture: require("@/assets/img/noimage.png"),
+        image: require("@/assets/img/noimage.png")
+      };
+      this.furnitures = this.getFurnitures();
+      this.$refs.myFurniture.close();
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    ...mapActions(["addMyFurniture"]),
     ...mapMutations(["saveCatalogs"]),
     ...mapGetters([
       "loadCatalogs",
@@ -130,8 +206,10 @@ export default {
             _data.furnitures.push(furniture);
           }
         });
-        if (!catalog.selected) catalog.selected = _data.furnitures[0].id;
-        catalogs.push(_data);
+        if (_data.furnitures[0]) {
+          if (!catalog.selected) catalog.selected = _data.furnitures[0].id;
+          catalogs.push(_data);
+        }
       });
       return catalogs;
     },
@@ -152,6 +230,7 @@ export default {
     this.category = this.getCategories();
     this.furnitures = this.getFurnitures();
     this.homeData = this.getHomeData();
+    console.log(this.category);
   },
   mounted() {
     if (this.devmode) {
@@ -217,5 +296,9 @@ export default {
     max-height: 75vh;
     overflow-y: scroll;
   }
+}
+
+.el-select-dropdown.el-popper {
+  z-index: 10000 !important;
 }
 </style>

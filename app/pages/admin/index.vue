@@ -159,6 +159,13 @@ export default {
         });
       });
       return furnitures;
+    },
+    myFurnitures() {
+      let furnitures = [];
+      this.furnitures.some(furniture => {
+        return !furniture.isBuy ? furnitures.push(furniture) : false;
+      });
+      return furnitures;
     }
   },
   created() {
@@ -171,6 +178,12 @@ export default {
   mounted() {
     this.mainHeight = $("main").height();
     this.img_rate = $("#floor-image").width() / this.homeData.floor.baseX;
+    this.myFurnitures.forEach(furniture => {
+      this.pickup_list.push({
+        price: 1,
+        ...furniture
+      });
+    });
   }
 };
 </script>

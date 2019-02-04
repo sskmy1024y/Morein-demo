@@ -15,7 +15,7 @@
       </el-col>
     </el-row>
     <div class="more-furniture" v-if="moreLists.length > 0">
-      <p class="morelabel">候補</p>
+      <p class="morelabel">他にも...</p>
       <div v-for="furniture in moreLists" :key="furniture.id" class="more">
         <img
           :src="furniture.image"
@@ -46,6 +46,7 @@ export default {
 <style lang="scss" scoped>
 .furniture-list {
   max-height: 240px;
+  margin-bottom: 10px;
   // overflow: none;
   .main-furniture {
     margin: 10px;
@@ -73,6 +74,8 @@ export default {
     .morelabel {
       float: left;
       margin: 5px 10px;
+      color: #6594e0; /*文字色*/
+      border-bottom: dashed 2px #6594e0;
     }
     .more {
       border: 1px solid #aaa;

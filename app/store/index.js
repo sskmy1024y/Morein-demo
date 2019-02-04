@@ -34,27 +34,47 @@ export default() => new Vuex.Store({
         selected: null,
         display: true
       },
+      {
+        id: 6,
+        category: 6,
+        selected: null,
+        display: true
+      },
+      {
+        id: 99,
+        category: 99,
+        selected: null,
+        display: true
+      },
     ],
     category: [
       {
         id: 1,
-        name: "bed"
+        name: "ベッド"
       },
       {
         id: 2,
-        name: "tv"
+        name: "テレビ"
       },
       {
         id: 3,
-        name: "desk"
+        name: "机"
       },
       {
         id: 4,
-        name: "chair"
+        name: "椅子"
       },
       {
         id: 5,
-        name: "refrigerator"
+        name: "冷蔵庫"
+      },
+      {
+        id: 6,
+        name: "洗濯機"
+      },
+      {
+        id:99,
+        name: "その他"
       }
     ],
     furnitures: [
@@ -69,6 +89,7 @@ export default() => new Vuex.Store({
         rotate: 90,
         texture: require("@/assets/img/bed1.jpeg"),
         image: require("@/assets/img/bed1.jpeg"),
+        isBuy: true,
         moveable: false,
         category: 1
       },
@@ -83,6 +104,7 @@ export default() => new Vuex.Store({
         rotate: 90,
         texture: require("@/assets/img/bed2.jpeg"),
         image: require("@/assets/img/bed2.jpeg"),
+        isBuy: true,
         moveable: false,
         category: 1
       },
@@ -91,13 +113,14 @@ export default() => new Vuex.Store({
         name: "ダブルベッド",
         width: 200,
         height: 160,
-        x: 522,
-        y: 209,
+        x: 534,
+        y: 179,
         rotate: 0,
         texture:
-          "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
+          require("@/assets/img/bed3.jpg"),
         image:
-          "https://egood.fs-storage.jp/fs2cabinet/i_l/i_lex_f_d/i_lex_f_d-m-01-dl.jpg",
+        require("@/assets/img/bed3.jpg"),
+        isBuy: true,
         moveable: false,
         category: 1
       },
@@ -111,6 +134,7 @@ export default() => new Vuex.Store({
         rotate: 0,
         texture: require("@/assets/img/tv1.jpg"),
         image: require("@/assets/img/tv1.jpg"),
+        isBuy: true,
         moveable: false,
         category: 2
       },
@@ -124,6 +148,7 @@ export default() => new Vuex.Store({
         rotate: 0,
         texture: require("@/assets/img/tv2.jpg"),
         image: require("@/assets/img/tv2.jpg"),
+        isBuy: true,
         moveable: false,
         category: 2
       },
@@ -137,6 +162,7 @@ export default() => new Vuex.Store({
         rotate: 0,
         texture: require("@/assets/img/tv3.jpg"),
         image: require("@/assets/img/tv3.jpg"),
+        isBuy: true,
         moveable: false,
         category: 2
       },
@@ -149,9 +175,42 @@ export default() => new Vuex.Store({
         y: 36,
         rotate: 0,
         texture:
-          "https://images-na.ssl-images-amazon.com/images/I/71imPndfHSL._SL1500_.jpg",
+          require("@/assets/img/desk1.jpg"),
         image:
-          "https://images-na.ssl-images-amazon.com/images/I/71imPndfHSL._SL1500_.jpg",
+          require("@/assets/img/desk1.jpg"),
+        isBuy: true,
+        moveable: false,
+        category: 3
+      },
+      {
+        id: 1014,
+        name: "パソコンデスク",
+        width: 160,
+        height: 60,
+        x: 573,
+        y: 36,
+        rotate: 0,
+        texture:
+          require("@/assets/img/desk2.jpg"),
+        image:
+          require("@/assets/img/desk2.jpg"),
+        isBuy: true,
+        moveable: false,
+        category: 3
+      },
+      {
+        id: 1024,
+        name: "ウッドデスク",
+        width: 170,
+        height: 65,
+        x: 562,
+        y: 35,
+        rotate: 0,
+        texture:
+          require("@/assets/img/desk3.jpg"),
+        image:
+          require("@/assets/img/desk3.jpg"),
+        isBuy: true,
         moveable: false,
         category: 3
       },
@@ -165,6 +224,21 @@ export default() => new Vuex.Store({
         rotate: 0,
         texture: require("@/assets/img/chair1.jpg"),
         image: require("@/assets/img/chair1.jpg"),
+        isBuy: true,
+        moveable: false,
+        category: 4
+      },
+      {
+        id: 1015,
+        name: "アーロンチェア",
+        width: 80,
+        height: 70,
+        x: 610,
+        y: 66,
+        rotate: 0,
+        texture: require("@/assets/img/chair2.jpg"),
+        image: require("@/assets/img/chair2.jpg"),
+        isBuy: true,
         moveable: false,
         category: 4
       },
@@ -178,6 +252,35 @@ export default() => new Vuex.Store({
         rotate: 0,
         texture: require("@/assets/img/refrigerator1.jpg"),
         image: require("@/assets/img/refrigerator1.jpg"),
+        isBuy: true,
+        moveable: false,
+        category: 5
+      },
+      {
+        id: 1016,
+        name: "2ドア冷蔵庫",
+        width: 70,
+        height: 65,
+        x: 296,
+        y: 273,
+        rotate: 0,
+        texture: require("@/assets/img/refrigerator2.jpg"),
+        image: require("@/assets/img/refrigerator2.jpg"),
+        isBuy: true,
+        moveable: false,
+        category: 5
+      },
+      {
+        id: 1026,
+        name: "東芝 2ドア冷蔵庫",
+        width: 70,
+        height: 65,
+        x: 296,
+        y: 273,
+        rotate: 0,
+        texture: require("@/assets/img/refrigerator3.jpg"),
+        image: require("@/assets/img/refrigerator3.jpg"),
+        isBuy: true,
         moveable: false,
         category: 5
       }
@@ -202,10 +305,23 @@ export default() => new Vuex.Store({
   mutations: {
     saveCatalogs (state, catalogs) {
       state.catalogs = catalogs
-    } 
+    },
+    pushFurniture (state, furniture) {
+      state.furnitures.push(furniture);
+    }
   },
   actions: {
-    
+    addMyFurniture({commit}, furniture) {
+      commit("pushFurniture", {
+        id:  Math.floor( Math.random() * (99999 + 1 - 10000) ) + 10000 ,  //実際はDBを用いるのでIDは自動生成
+        x: 0,
+        y: 0,
+        rotate: 0,
+        isBuy: false,
+        moveable: false,
+        ...furniture
+      })
+    } 
   },
   getters: {
     loadCatalogs (state) {
