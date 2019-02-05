@@ -16,7 +16,7 @@
           <img :src="list.furnitures[0].image" alt class="furniture-image">
         </div>
       </el-col>
-      <el-col :span="12" :offset="1">
+      <el-col :span="14" :offset="1">
         <div class="title">{{list.furnitures[0].name}}</div>
 
         <p
