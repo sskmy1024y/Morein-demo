@@ -14,7 +14,8 @@
     <br>
 
     <el-row :gutter="20">
-      <el-col :span="12" :offset="6">
+      <el-col :span="6" :offset="6">購入合計金額:&nbsp;&yen;{{ totalPrice }}</el-col>
+      <el-col :span="6">
         <el-switch
           style="float: right;"
           v-model="furniture_mode"
@@ -68,7 +69,7 @@
           <el-form-item label="家具名">
             <el-input v-model="myFurnitureForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="カテゴリー">
+          <!-- <el-form-item label="カテゴリー">
             <el-select v-model="myFurnitureForm.category" placeholder="カテゴリを選んでください">
               <el-option
                 v-for="item in category"
@@ -77,7 +78,7 @@
                 :value="item.id"
               ></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
           <el-form-item label="横幅:width(cm)">
             <el-input-number v-model="myFurnitureForm.width" :min="1"></el-input-number>
           </el-form-item>
@@ -98,6 +99,9 @@
             <el-dialog :visible.sync="dialogVisible">
               <img width="100%" :src="dialogImageUrl" alt>
             </el-dialog>
+          </el-form-item>
+          <el-form-item label="備考">
+            <el-input type="textarea" v-model="myFurnitureForm.details"></el-input>
           </el-form-item>
         </el-form>
         <el-button type="info" plain @click="$refs.myFurniture.close()">編集画面に戻る</el-button>
@@ -129,11 +133,12 @@ export default {
       mainHeight: 1000,
       myFurnitureForm: {
         name: "",
-        width: 100,
-        height: 100,
-        category: null,
-        texture: require("@/assets/img/noimage.png"),
-        image: require("@/assets/img/noimage.png")
+        width: 70,
+        height: 65,
+        // category: null,
+        texture: require("@/assets/img/microwave1.jpg"),
+        image: require("@/assets/img/microwave1.jpg"),
+        details: ""
       },
       dialogImageUrl: "",
       dialogVisible: false,
@@ -171,12 +176,13 @@ export default {
         name: "",
         width: 100,
         height: 100,
-        category: null,
         texture: require("@/assets/img/noimage.png"),
         image: require("@/assets/img/noimage.png")
       };
+      this.category = this.getCategories();
       this.furnitures = this.getFurnitures();
       this.$refs.myFurniture.close();
+      this.mainHeight = $("main").height();
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -223,6 +229,14 @@ export default {
         });
       });
       return furnitures;
+    },
+    totalPrice() {
+      let max = 0;
+      this.setLists.forEach(list => {
+        if (typeof list.furnitures[0].price === "number" && list.display)
+          max += list.furnitures[0].price;
+      });
+      return max.toLocaleString();
     }
   },
   created() {

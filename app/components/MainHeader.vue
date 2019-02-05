@@ -5,11 +5,11 @@
       <el-button icon="el-icon-arrow-right" circle type="primary"></el-button>
     </div>
     <div class="stepbar">
-      <el-steps :active="2" finish-status="success" simple style="margin-top: 5px">
+      <el-steps :active="1" finish-status="success" simple style="margin-top: 5px">
         <el-step title="お部屋探し"></el-step>
-        <el-step title="家具選び"></el-step>
         <el-step title="レイアウト"></el-step>
         <el-step title="情報入力"></el-step>
+        <el-step title="価格見積り"></el-step>
         <el-step title="契約完了"></el-step>
       </el-steps>
     </div>

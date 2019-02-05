@@ -38,7 +38,9 @@ export default {
   data() {
     return {
       paneX: 0,
-      paneY: 0
+      paneY: 0,
+
+      movefixmode: false
     };
   },
   props: ["furnitures", "homeData", "img_rate", "moveable", "leftmargin"],
@@ -83,6 +85,27 @@ export default {
     this.paneX = this.leftmargin
       ? this.leftmargin
       : $("#canvas-pane").offset().left;
+
+    // トップで固定
+    if (this.movefixmode) {
+      let pane = $("#canvas-pane"),
+        offset = pane.offset(),
+        width = pane.outerWidth();
+      const obj = $(
+        `<div id="temp_obj" style="width:${width}px; height:${pane.outerHeight() +
+          60}px; position:relative;" />`
+      );
+      $(window).scroll(() => {
+        if ($(window).scrollTop() > offset.top - 10) {
+          pane.after(obj);
+          pane.css("width", width + "px");
+          pane.addClass("fixed");
+        } else {
+          $("#temp_obj") ? $("#temp_obj").remove() : false;
+          pane.removeClass("fixed");
+        }
+      });
+    }
   }
 };
 </script>
@@ -103,6 +126,17 @@ export default {
   z-index: 99;
   img {
     width: 100%;
+  }
+  &.fixed {
+    position: fixed;
+    top: 0;
+    padding-left: 10px;
+
+    z-index: 10000;
+    .furniture {
+      position: fixed !important;
+      margin-left: 10px;
+    }
   }
 }
 .furniture {

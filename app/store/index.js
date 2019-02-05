@@ -41,6 +41,12 @@ export default() => new Vuex.Store({
         display: true
       },
       {
+        id: 7,
+        category: 7,
+        selected: null,
+        display: true
+      },
+      {
         id: 99,
         category: 99,
         selected: null,
@@ -73,6 +79,10 @@ export default() => new Vuex.Store({
         name: "洗濯機"
       },
       {
+        id: 7,
+        name: "調理家電"
+      },
+      {
         id:99,
         name: "その他"
       }
@@ -84,6 +94,7 @@ export default() => new Vuex.Store({
         description: "シンプルなウッドベッドです。",
         width: 110,
         height: 200,
+        price: 21000,
         x: 579,
         y: 184,
         rotate: 90,
@@ -99,6 +110,7 @@ export default() => new Vuex.Store({
         description: "シンプルなウッドベッドです。",
         width: 100,
         height: 200,
+        price: 13000,
         x: 584,
         y: 188,
         rotate: 90,
@@ -113,6 +125,7 @@ export default() => new Vuex.Store({
         name: "ダブルベッド",
         width: 200,
         height: 160,
+        price: 30000,
         x: 534,
         y: 179,
         rotate: 0,
@@ -129,6 +142,7 @@ export default() => new Vuex.Store({
         name: "テレビ",
         width: 140,
         height: 40,
+        price: 25330,
         x: 400,
         y: 36,
         rotate: 0,
@@ -143,6 +157,7 @@ export default() => new Vuex.Store({
         name: "4Kテレビ",
         width: 140,
         height: 40,
+        price: 90000,
         x: 393,
         y: 39,
         rotate: 0,
@@ -157,6 +172,7 @@ export default() => new Vuex.Store({
         name: "カラーテレビ",
         width: 100,
         height: 70,
+        price: 102000,
         x: 411,
         y: 36,
         rotate: 0,
@@ -171,6 +187,7 @@ export default() => new Vuex.Store({
         name: "デスク",
         width: 160,
         height: 60,
+        price: 11990,
         x: 573,
         y: 36,
         rotate: 0,
@@ -187,6 +204,7 @@ export default() => new Vuex.Store({
         name: "パソコンデスク",
         width: 160,
         height: 60,
+        price: 12800,
         x: 573,
         y: 36,
         rotate: 0,
@@ -203,6 +221,7 @@ export default() => new Vuex.Store({
         name: "ウッドデスク",
         width: 170,
         height: 65,
+        price: 4990,
         x: 562,
         y: 35,
         rotate: 0,
@@ -219,6 +238,7 @@ export default() => new Vuex.Store({
         name: "チェア",
         width: 75,
         height: 70,
+        price: 8000,
         x: 612,
         y: 66,
         rotate: 0,
@@ -233,6 +253,7 @@ export default() => new Vuex.Store({
         name: "アーロンチェア",
         width: 80,
         height: 70,
+        price: 211680,
         x: 610,
         y: 66,
         rotate: 0,
@@ -247,6 +268,7 @@ export default() => new Vuex.Store({
         name: "6ドア冷蔵庫",
         width: 70,
         height: 65,
+        price: 120000,
         x: 296,
         y: 273,
         rotate: 0,
@@ -261,6 +283,7 @@ export default() => new Vuex.Store({
         name: "2ドア冷蔵庫",
         width: 70,
         height: 65,
+        price: 34000,
         x: 296,
         y: 273,
         rotate: 0,
@@ -275,6 +298,7 @@ export default() => new Vuex.Store({
         name: "東芝 2ドア冷蔵庫",
         width: 70,
         height: 65,
+        price: 30000,
         x: 296,
         y: 273,
         rotate: 0,
@@ -283,7 +307,22 @@ export default() => new Vuex.Store({
         isBuy: true,
         moveable: false,
         category: 5
-      }
+      },
+      // {
+      //   id: 10019,
+      //   name: "自宅にある電子レンジ",
+      //   width: 70,
+      //   height: 65,
+      //   price: null,
+      //   x: 138,
+      //   y: 274,
+      //   rotate: 0,
+      //   texture: require("@/assets/img/microwave1.jpg"),
+      //   image: require("@/assets/img/microwave1.jpg"),
+      //   isBuy: false,
+      //   moveable: false,
+      //   category: 7
+      // }
     ],
     home_data: {
       id: 1001,
@@ -308,19 +347,38 @@ export default() => new Vuex.Store({
     },
     pushFurniture (state, furniture) {
       state.furnitures.push(furniture);
+    },
+    pushCategory (state, category) {
+      state.category.push(category);
+    },
+    pushCatalog (state, catalog) {
+      state.catalogs.push(catalog)
     }
   },
   actions: {
-    addMyFurniture({commit}, furniture) {
-      commit("pushFurniture", {
+    async addMyFurniture({commit}, furniture) {
+      const category = Math.floor( Math.random() * (99999 + 1 - 10000) ) + 10000;
+      await commit("pushFurniture", {
         id:  Math.floor( Math.random() * (99999 + 1 - 10000) ) + 10000 ,  //実際はDBを用いるのでIDは自動生成
         x: 0,
         y: 0,
+        price: null,
         rotate: 0,
         isBuy: false,
         moveable: false,
+        category: category,
         ...furniture
       })
+      await commit("pushCategory", {
+        id: Math.floor( Math.random() * (99999 + 1 - 10000) ) + 10000,
+        name: furniture.name
+      })
+      await commit("pushCatalog", {
+        id: Math.floor( Math.random() * (99999 + 1 - 10000) ) + 10000,
+        category: category,
+        selected: null,
+        display: true
+      },)
     } 
   },
   getters: {
